@@ -1,19 +1,17 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ExtensionMethods;
 
 //Console.WriteLine("Enter path to .plist file:");
 //string pathToPlist = Console.Read();
-string fileContent = File.ReadAllText("Purchases.plist");
 
+string plistContent = File.ReadAllText("Purchases.plist");
+
+plistContent = plistContent.ReplaceLastOccurrence("</plist>", "")
+                           .ReplaceLastOccurrence("</dict>", "")
+                           .ReplaceLastOccurrence("</array>", "");
+
+// TODO Filter files that already exist
 string[] filePaths = Directory.GetFiles(".", "*.pdf", SearchOption.TopDirectoryOnly);
-
-foreach (string filePath in filePaths)
-{
-    //filePath = filePath.Substring();
-}
-
-const string bookNameWithExtenstion = "";
-const string bookName = "";
-const string packageHash = "";
 
 const string bookEntryTemplate = 
 		@"<dict>
@@ -33,15 +31,22 @@ const string bookEntryTemplate =
 			<date>2022-08-28T09:40:30Z</date>
 		</dict>";
 
-string bookEntry = bookEntryTemplate;
-
-bookEntry.Replace("%bookNameWithExtension%", bookNameWithExtenstion);
-bookEntry.Replace("%bookName%", bookName);
-bookEntry.Replace("packageHash", packageHash); // E9245C7C48E4134D741E1939B04FB022
-
-//Console.WriteLine(fileContent);
-foreach (var item in filePaths)
+foreach (var filePath in filePaths)
 {
-Console.WriteLine(item );
-    
+    string fileName = filePath.Substring(filePath.LastIndexOf("/") + 1);
+
+    string bookEntry = bookEntryTemplate;
+    string bookNameWithExtenstion = fileName;
+    string bookName = fileName.Substring(0, fileName.LastIndexOf(".pdf"));
+    string packageHash = Guid.NewGuid().ToString().Replace("-", "");
+
+    bookEntry = bookEntry.Replace("%bookNameWithExtension%", bookNameWithExtenstion);
+    bookEntry = bookEntry.Replace("%bookName%", bookName);
+    bookEntry = bookEntry.Replace("%packageHash%", packageHash); // E9245C7C48E4134D741E1939B04FB022
+
+    plistContent = string.Concat(new string[] { plistContent, bookEntry + "\n" });    
 }
+
+plistContent = string.Concat(new string[] { plistContent, "</array>\n", "</dict>\n", "</plist>\n"});
+
+Console.WriteLine(plistContent);
