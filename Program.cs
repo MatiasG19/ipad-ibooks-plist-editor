@@ -43,7 +43,7 @@ const string bookEntryTemplate =
 		</dict>";
 
 Console.WriteLine("Creating entries...");
-int i = 0;
+int newEntryCount = 0;
 foreach (var filePath in filePaths)
 {
     string fileName = filePath.Substring(filePath.LastIndexOf("/") + 1);
@@ -55,7 +55,7 @@ foreach (var filePath in filePaths)
 	else 
 	{
 		Console.WriteLine($"Creating entry for: {fileName}");
-		i++;
+		newEntryCount++;
 	}
 
     string bookEntry = bookEntryTemplate;
@@ -65,11 +65,11 @@ foreach (var filePath in filePaths)
     bookEntry = bookEntry.Replace("%packageHash%", packageHash); // e.g. E9245C7C48E4134D741E1939B04FB022
     bookEntry = bookEntry.Replace("%presistantId%", packageHash.Substring(0, 16)); // e.g. 4B6C69B27ED443C4
     bookEntry = bookEntry.Replace("%dateTime%", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ")); // e.g. 2022-08-28T09:40:30Z
-	
+
     plistContent = string.Concat(new string[] { plistContent, bookEntry + "\n" });    
 }
 
-if(i > 0) 
+if(newEntryCount > 0) 
 {
 	plistContent = string.Concat(new string[] { plistContent, "\t</array>\n", "</dict>\n", "</plist>\n"});
 
@@ -81,4 +81,4 @@ if(i > 0)
 	}
 } 
 
-Console.WriteLine($"Finished. {i} entries written.");
+Console.WriteLine($"Finished. {newEntryCount} entries written.");
