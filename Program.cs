@@ -21,7 +21,6 @@ plistContent = plistContent.ReplaceLastOccurrence("</plist>\n", "")
                            .ReplaceLastOccurrence("</dict>\n", "")
                            .ReplaceLastOccurrence("</array>\n", "");
 
-// TODO Filter files that already exist
 string[] filePaths = Directory.GetFiles(".", "*.pdf", SearchOption.TopDirectoryOnly);
 
 const string bookEntryTemplate = 
@@ -40,7 +39,7 @@ const string bookEntryTemplate =
 			<key>Persistent ID Generated On Device</key>
 			<false/>
 			<key>importDate</key>
-			<date>2022-08-28T09:40:30Z</date>
+			<date>%dateTime%</date>
 		</dict>";
 
 Console.WriteLine("Creating entries...");
@@ -59,17 +58,18 @@ foreach (var filePath in filePaths)
 		i++;
 	}
 
-	// TODO import date
     string bookEntry = bookEntryTemplate;
     string bookNameWithExtenstion = fileName;
     string bookName = fileName.Substring(0, fileName.LastIndexOf(".pdf"));
     string packageHash = Guid.NewGuid().ToString().Replace("-", "").ToUpper();
     string presistantId = packageHash.Substring(0, 16);
+	string dateTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"); 
 
     bookEntry = bookEntry.Replace("%bookNameWithExtension%", bookNameWithExtenstion);
     bookEntry = bookEntry.Replace("%bookName%", bookName);
     bookEntry = bookEntry.Replace("%packageHash%", packageHash); // e.g. E9245C7C48E4134D741E1939B04FB022
     bookEntry = bookEntry.Replace("%presistantId%", presistantId); // e.g. 4B6C69B27ED443C4
+    bookEntry = bookEntry.Replace("%dateTime%", dateTime); // e.g. 2022-08-28T09:40:30Z
 
     plistContent = string.Concat(new string[] { plistContent, bookEntry + "\n" });    
 }
