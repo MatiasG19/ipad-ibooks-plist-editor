@@ -9,6 +9,14 @@ if(String.IsNullOrEmpty(plistPath))
 	return;
 }
 
+Console.WriteLine("Enter path to eBooks (e.g. /myEbooks):");
+string? ebooksPath = Console.ReadLine();
+if(String.IsNullOrEmpty(ebooksPath)) 
+{	
+	Console.WriteLine("Invalid path.");	
+	return;
+}
+
 Console.WriteLine("Reading file content...");
 string plistContent = File.ReadAllText(plistPath);
 if(String.IsNullOrEmpty(plistContent)) 
@@ -21,7 +29,7 @@ plistContent = plistContent.ReplaceLastOccurrence("</plist>\n", "")
                            .ReplaceLastOccurrence("</dict>\n", "")
                            .ReplaceLastOccurrence("</array>\n", "");
 
-string[] filePaths = Directory.GetFiles(".", "*.pdf", SearchOption.TopDirectoryOnly);
+string[] filePaths = Directory.GetFiles(ebooksPath, "*.pdf", SearchOption.TopDirectoryOnly);
 
 const string bookEntryTemplate = 
 		"\t" +
