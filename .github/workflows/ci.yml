@@ -19,21 +19,21 @@ jobs:
         run: dotnet build -c Release
 
       - name: Publish linux
-        if: ${{ contains(github.event.name, 'released' }}
+        if: ${{ contains('released', github.event.name) }}
         run: dotnet publish --output ./bin/publish/linux-x64 -r linux-x64 -c Release --self-contained -p:PublishSingleFile=true
 
       - name: Publish win
-        if: ${{ contains(github.event.name, 'released' }}
+        if: ${{ contains('released', github.event.name) }}
         run: dotnet publish --output ./bin/publish/win-x64 -r win-x64 -c Release --self-contained -p:PublishSingleFile=true
 
       - name: Upload linux-x64
-        if: ${{ contains(github.event.name, 'released' }}
+        if: ${{ contains('released', github.event.name) }}
         run: gh release upload ${{ github.ref.name }} "./bin/Release/publish/linux-x64/ipad-ebook-plist-editor"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload win-x64
-        if: ${{ contains(github.event.name, 'released' }}
+        if: ${{ contains('released', github.event.name) }}
         run: gh release upload ${{ github.ref.name }} "./bin/Release/publish/win-x64/ipad-ebook-plist-editor.exe"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
