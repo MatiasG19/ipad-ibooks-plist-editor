@@ -1,0 +1,55 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+  release:
+    types: [released, prereleased]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x.x'
+
+      - name: Build
+        run: dotnet build -c Release
+
+  Release:
+    if: ${{ github.event_name == 'release' }}
+    needs: [Build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x.x'
+
+      - name: Publish linux
+        run: dotnet publish --output ./bin/publish/linux-x64 -r linux-x64 -c Release --self-contained -p:PublishSingleFile=true
+
+      - name: Publish win
+        run: dotnet publish --output ./bin/publish/win-x64 -r win-x64 -c Release --self-contained -p:PublishSingleFile=true
+
+      - name: Upload linux-x64
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/linux-x64/ipad-ebook-plist-editor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload win-x64
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/win-x64/ipad-ebook-plist-editor.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
