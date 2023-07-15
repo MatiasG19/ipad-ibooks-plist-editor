@@ -1,6 +1,6 @@
-# iPad eBook Plist editor
+# iPad iBooks Plist editor [![CI/CD](https://github.com/MatiasG19/ipad-ibooks-plist-editor/actions/workflows/cicd.yml/badge.svg)](https://github.com/MatiasG19/ipad-ibooks-plist-editor/actions/workflows/cicd.yml)
 
-Generate .plist entries for eBooks on iPad with an interactive script.
+Generate .plist entries for iBooks on iPad with an interactive script. It is useful for old iPads that do not work with webservices anymore.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -29,6 +29,15 @@ Generate .plist entries for eBooks on iPad with an interactive script.
 </dict>
 </plist>
 ```
+
+## Usage
+
+1. Copy `Purchases.plist` from `/User/Media/Books/Purchases` on iPad to local machine.
+2. Download script from releases.
+3. (Linux only) Add permissions `chmod +x ipad-ibooks-plist-editor`.
+4. Execute script and follow prompts.
+5. Copy books and `Purchases.plist` to iPad.
+6. After restarting iBooks, the new books should apear in the library.
 
 ## Getting started
 
