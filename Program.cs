@@ -8,6 +8,10 @@ if(String.IsNullOrEmpty(plistPath))
 	Console.WriteLine("Invalid path.");	
 	return;
 }
+else if(!plistPath.Contains(".plist")) {
+	Console.WriteLine("File name is missing in path!");	
+	return;
+}
 
 Console.WriteLine("Enter path to eBooks (e.g. /myEbooks):");
 string? ebooksPath = Console.ReadLine();
@@ -18,7 +22,17 @@ if(String.IsNullOrEmpty(ebooksPath))
 }
 
 Console.WriteLine("Reading file content...");
-string plistContent = File.ReadAllText(plistPath);
+string plistContent = "";
+try
+{
+	plistContent = File.ReadAllText(plistPath);
+}
+catch (System.Exception)
+{
+	Console.WriteLine("Error reading .plist file. Check path.");	
+	return;
+}
+
 if(String.IsNullOrEmpty(plistContent)) 
 {
 	Console.WriteLine("Invalid file content.");	
