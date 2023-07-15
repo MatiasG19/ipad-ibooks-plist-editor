@@ -45,11 +45,11 @@ jobs:
         run: dotnet publish --output ./bin/publish/win-x64 -r win-x64 -c Release --self-contained -p:PublishSingleFile=true
 
       - name: Upload linux-x64
-        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/linux-x64/ipad-ebook-plist-editor
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/linux-x64/ipad-ibooks-plist-editor
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload win-x64
-        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/win-x64/ipad-ebook-plist-editor.exe
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/win-x64/ipad-ibooks-plist-editor.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
