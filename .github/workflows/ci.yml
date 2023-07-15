@@ -16,4 +16,4 @@ jobs:
           dotnet-version: '7.x.x'
 
       - name: Build
-        run: dotnet build
+        run: dotnet build -c Release
