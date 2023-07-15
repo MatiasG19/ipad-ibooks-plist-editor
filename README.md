@@ -33,9 +33,11 @@ Generate .plist entries for iBooks on iPad with an interactive script. It is use
 ## Usage
 
 1. Copy `Purchases.plist` from `/User/Media/Books/Purchases` on iPad to local machine.
-2. Download script and add permissions `chmod +x ipad-ebook-plist-editor` (Linux only).
-3. Execute script and follow prompts.
-4. Copy books and `Purchases.plist` to iPad.
+2. Download script from releases.
+3. (Linux only) Add permissions `chmod +x ipad-ebook-plist-editor`.
+4. Execute script and follow prompts.
+5. Copy books and `Purchases.plist` to iPad.
+6. After restarting iBooks, the new books should apear in the library.
 
 ## Getting started
 
