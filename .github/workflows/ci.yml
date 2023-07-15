@@ -32,12 +32,12 @@ jobs:
 
       - name: Upload linux-x64
         if: ${{ github.event_name == 'release' }}
-        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/Release/publish/linux-x64/ipad-ebook-plist-editor
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/linux-x64/ipad-ebook-plist-editor
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload win-x64
         if: ${{ github.event_name == 'release' }}
-        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/Release/publish/win-x64/ipad-ebook-plist-editor.exe
+        run: gh release upload ${{ github.ref_name }} ${{ github.workspace }}/bin/publish/win-x64/ipad-ebook-plist-editor.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
